@@ -1,5 +1,5 @@
-// Student: Kemper, Michael
-// RedID: 822 86 7065
+// Students: Kemper, Michael, Ryan Clode
+// RedIDs: 822 86 7065
 
 #include "dictionary.h"
 
