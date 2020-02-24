@@ -19,7 +19,7 @@ long TerminationValue;
 long count = 0;
 long *countPtr;
 PROGRESS_STATUS progStatus;
-PROGRESS_STATUS* progStatusPtr;
+PROGRESS_STATUS* progStatusPtr = &progStatus;
 
 long wordCount(char * fileName){
   //open file stream
@@ -68,16 +68,16 @@ long wordCount(char * fileName){
   return *countPtr;
 
 }
-int hyphenCount = 0;
-int prevHyphenCount = 0;
+long int hyphenCount = 0;
+long int prevHyphenCount = 0;
 
 void progress_monitor(PROGRESS_STATUS * arg) {
   cout << "part part 3" << endl;
-  long int tempCurrStatus = *(arg->CurrentStatus);
+  long int tempCurrStatus = *(progStatus.CurrentStatus);
   cout << "current status: " << tempCurrStatus;
   cout << " term value: " << (*progStatusPtr).TerminationValue << endl;
-  hyphenCount = ((long int)(progStatusPtr->CurrentStatus) / (long int)((*progStatusPtr).TerminationValue)) * 40;
-  cout << "part part 3.5" << endl;
+  hyphenCount = (long)((((double)tempCurrStatus / (double)(*progStatusPtr).TerminationValue)) * (double)40);
+  cout << "part part 3.5 " << prevHyphenCount << " " << hyphenCount << endl;
 
   for(int i = prevHyphenCount; i < hyphenCount; i++) {
     cout << "-";
@@ -109,7 +109,8 @@ int main(int argc, char **argv){
   }
   cout << "part part 1" << endl;
   PROGRESS_STATUS temp;
-  temp.*CurrentStatus = (long)40;
+  long int forty = (long int)40;
+  progStatus.CurrentStatus = &forty;
    (*progStatusPtr).TerminationValue = (long)50;
    (*progStatusPtr).InitialValue = (long)0;
   cout << "part part 2" << endl;
