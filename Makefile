@@ -2,8 +2,8 @@
 CXX=g++
 # Make variable for compiler options
 #	-std=c++11  C/C++ variant to use, e.g. C++ 2011
-#	-g          include information for symbolic debugger e.g. gdb 
-CXXFLAGS=-std=c++11 -g
+#	-g          include information for symbolic debugger e.g. gdb
+CXXFLAGS=-std=c++11 -pthread -g
 
 # Rules format:
 # target : dependency1 dependency2 ... dependencyN
@@ -19,4 +19,3 @@ wordcount.o : wordcount.C
 
 clean :
 	rm *.o
-

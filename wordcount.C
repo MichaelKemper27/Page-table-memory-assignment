@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <cstring>
 #include <exception>
-
-#define NUM_THREADS 1
+#include <sys/types.h>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -16,12 +16,12 @@ long InitialValue;
 long TerminationValue;
 } PROGRESS_STATUS;
 
-long count = 0;
-long *countPtr;
+long int count = 0;
+//long int *countPtr;
 PROGRESS_STATUS progStatus;
 PROGRESS_STATUS* progStatusPtr = &progStatus;
 
-long wordCount(char * fileName){
+long int wordCount(char * fileName){
   //open file stream
   ifstream file(fileName);
   string line;
@@ -33,7 +33,7 @@ long wordCount(char * fileName){
   */
   //int count = 0;
   cout << "part 1" << endl;
-  countPtr = &count;
+  //countPtr = &count;
   //progStatusPtr = &progStatus;
   if(file && !file.fail()){
     while(getline(file, line)){
@@ -48,7 +48,7 @@ long wordCount(char * fileName){
 	while(token != NULL){
 	  //count each
 
-	  (*countPtr)++;
+	  count++;
 
 	  token = strtok(NULL, seperators);
 	}
@@ -65,29 +65,43 @@ long wordCount(char * fileName){
 
   file.close();
 
-  return *countPtr;
+  return count;
 
 }
 long int hyphenCount = 0;
 long int prevHyphenCount = 0;
 
-void progress_monitor(PROGRESS_STATUS * arg) {
-  cout << "part part 3" << endl;
-  long int tempCurrStatus = *(progStatus.CurrentStatus);
-  cout << "current status: " << tempCurrStatus;
-  cout << " term value: " << (*progStatusPtr).TerminationValue << endl;
-  hyphenCount = (long)((((double)tempCurrStatus / (double)(*progStatusPtr).TerminationValue)) * (double)40);
-  cout << "part part 3.5 " << prevHyphenCount << " " << hyphenCount << endl;
+void* progress_monitor(void * arg) {
+  //cout << "part part 2.5" << endl;
 
-  for(int i = prevHyphenCount; i < hyphenCount; i++) {
-    cout << "-";
-    cout.flush();
+  while(prevHyphenCount <= hyphenCount) {
+    //cout << "part part 3" << endl;
+    long int tempLongInt = count;
+    progStatus.CurrentStatus = &tempLongInt;
+    //long int tempCurrStatus = *(progStatus.CurrentStatus);
+    //cout << "current status: " << tempCurrStatus;
+    //cout << " term value: " << (*progStatusPtr).TerminationValue << endl;
+    hyphenCount = (long)((((double)(*(progStatus.CurrentStatus)) / (double)(*progStatusPtr).TerminationValue)) * (double)40);
+    //cout << "part part 3.5 " << prevHyphenCount << " " << hyphenCount << endl;
+
+    for(int i = prevHyphenCount; i < hyphenCount; i++) {
+      cout << "-";
+      cout.flush();
+    }
+    //cout << "part part 4" << endl;
+
+    prevHyphenCount = hyphenCount;
+    if(*(progStatus.CurrentStatus) == (*progStatusPtr).TerminationValue) {
+      cout << endl;
+      break;
+      //cout << "part part done" << endl;
+      //end the loop condition
+    }
+    //cout << "part part 5" << endl;
   }
-  cout << "part part 4" << endl;
+  //cout << "part part 6" << endl;
 
-  prevHyphenCount = hyphenCount;
-  cout << "part part 5" << endl;
-
+  pthread_exit(0);
 }
 
 int main(int argc, char **argv){
@@ -103,22 +117,28 @@ int main(int argc, char **argv){
 //   result_code = pthread_create(&threads[i], 0, progress_monitor());
 // }
   //check for command line args
-  if(argc != 2){
+  if(argc != 2) {
     cout << "incorrect number of arguments. Exactly 1 required." << endl;
     return 0;
   }
   cout << "part part 1" << endl;
-  PROGRESS_STATUS temp;
-  long int forty = (long int)40;
-  progStatus.CurrentStatus = &forty;
-   (*progStatusPtr).TerminationValue = (long)50;
+  progStatus.CurrentStatus = &count;
+   (*progStatusPtr).TerminationValue = (long)1097929;
    (*progStatusPtr).InitialValue = (long)0;
   cout << "part part 2" << endl;
   cout << "pre-current status: " << *(progStatusPtr->CurrentStatus);
   cout << " pre-term value: " << (*progStatusPtr).TerminationValue << endl;
 
   //progress_monitor(NULL);
-  cout << wordCount(argv[1]) << endl;
-  progress_monitor(progStatusPtr);
+  pthread_t tid;
 
+  // pthread_attr_t attr;
+  // pthread_aatr_init(&attr);
+  int result_code = pthread_create(&tid, 0, progress_monitor, NULL);
+  cout << wordCount(argv[1]) << endl;
+  pthread_join(tid, NULL);
+
+  //progress_monitor(progStatusPtr);
+
+  //pthread_join(tid, NULL);
 }
