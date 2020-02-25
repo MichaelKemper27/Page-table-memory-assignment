@@ -17,6 +17,7 @@ long TerminationValue;
 } PROGRESS_STATUS;
 
 long int count = 0;
+long int wordCounter = 0;
 //long int *countPtr;
 PROGRESS_STATUS progStatus;
 PROGRESS_STATUS* progStatusPtr = &progStatus;
@@ -36,19 +37,23 @@ long int wordCount(char * fileName){
   //countPtr = &count;
   //progStatusPtr = &progStatus;
   if(file && !file.fail()){
+
     while(getline(file, line)){
       try{
 	//convert string to char *
 	const char *line_cc = line.c_str();
 	char *line_c = new char[strlen(line_cc) + 1]{};
 	copy(line_cc, line_cc + strlen(line_cc), line_c);
-
+  int tempLineByteCount = strlen(line_cc) + 1;
+  count+=tempLineByteCount;
+  //cout << "added this many bytes: " << tempLineByteCount << endl;
 	//split line into tokens
 	char *token = (char*)strtok(line_c, seperators);
+
 	while(token != NULL){
 	  //count each
 
-	  count++;
+	  wordCounter++;
 
 	  token = strtok(NULL, seperators);
 	}
@@ -91,8 +96,9 @@ void* progress_monitor(void * arg) {
     //cout << "part part 4" << endl;
 
     prevHyphenCount = hyphenCount;
-    if(*(progStatus.CurrentStatus) == (*progStatusPtr).TerminationValue) {
+    if(*(progStatus.CurrentStatus) >= (*progStatusPtr).TerminationValue) {
       cout << endl;
+      cout << hyphenCount << " hypens added. Current status byte amount: " << *(progStatus.CurrentStatus) << endl;
       break;
       //cout << "part part done" << endl;
       //end the loop condition
@@ -123,7 +129,11 @@ int main(int argc, char **argv){
   }
   cout << "part part 1" << endl;
   progStatus.CurrentStatus = &count;
-   (*progStatusPtr).TerminationValue = (long)1097929;
+  struct stat buf = {0};
+  lstat(argv[1], &buf);
+  printf("number of bytes for this file: %d\n", buf.st_size);
+  progStatus.TerminationValue = (long int)buf.st_size;
+   //(*progStatusPtr).TerminationValue = (long)1097929;
    (*progStatusPtr).InitialValue = (long)0;
   cout << "part part 2" << endl;
   cout << "pre-current status: " << *(progStatusPtr->CurrentStatus);
