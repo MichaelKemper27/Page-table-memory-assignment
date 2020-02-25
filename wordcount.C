@@ -33,7 +33,7 @@ long int wordCount(char * fileName){
    * break each line into tokens.
   */
   //int count = 0;
-  cout << "part 1" << endl;
+  //cout << "part 1" << endl;
   //countPtr = &count;
   //progStatusPtr = &progStatus;
   if(file && !file.fail()){
@@ -66,47 +66,39 @@ long int wordCount(char * fileName){
     cout << "file is not valid" << endl;
     return 0;
   }
-  cout << "part 3" << endl;
+  //cout << "part 3" << endl;
 
   file.close();
 
-  return count;
+  return wordCounter;
 
 }
 long int hyphenCount = 0;
 long int prevHyphenCount = 0;
 
 void* progress_monitor(void *input) {
-  //cout << "part part 2.5" << endl;
 
   while(prevHyphenCount <= hyphenCount) {
-    //cout << "part part 3" << endl;
+ 
     long int tempLongInt = count;
     ((PROGRESS_STATUS *)input)->CurrentStatus = &tempLongInt;
     //long int tempCurrStatus = *(progStatus.CurrentStatus);
-    //cout << "current status: " << tempCurrStatus;
-    //cout << " term value: " << (*progStatusPtr).TerminationValue << endl;
     //  hyphenCount = (long)((((double)(*(progStatus.CurrentStatus)) / (double)(*progStatusPtr).TerminationValue)) * (double)40);
     hyphenCount = (long)(((double)(*(((PROGRESS_STATUS *)input)->CurrentStatus)) / (double)(((PROGRESS_STATUS *)input)->TerminationValue)) * (double)40);
-    //cout << "part part 3.5 " << prevHyphenCount << " " << hyphenCount << endl;
 
     for(int i = prevHyphenCount; i < hyphenCount; i++) {
       cout << "-";
       cout.flush();
     }
-    //cout << "part part 4" << endl;
 
     prevHyphenCount = hyphenCount;
     if(*((((PROGRESS_STATUS *)input)->CurrentStatus)) >= ((PROGRESS_STATUS *)input)->TerminationValue) {
       cout << endl;
-      cout << hyphenCount << " hypens added. Current status byte amount: " << *(progStatus.CurrentStatus) << endl;
+      //cout << hyphenCount << " hypens added. Current status byte amount: " << *(progStatus.CurrentStatus) << endl;
       break;
-      //cout << "part part done" << endl;
       //end the loop condition
     }
-    //cout << "part part 5" << endl;
   }
-  //cout << "part part 6" << endl;
 
   pthread_exit(0);
 }
@@ -128,17 +120,17 @@ int main(int argc, char **argv){
     cout << "incorrect number of arguments. Exactly 1 required." << endl;
     return 0;
   }
-  cout << "part part 1" << endl;
+  //cout << "part part 1" << endl;
   progStatus.CurrentStatus = &count;
   struct stat buf = {0};
   lstat(argv[1], &buf);
-  printf("number of bytes for this file: %d\n", buf.st_size);
+  //printf("number of bytes for this file: %d\n", buf.st_size);
   progStatus.TerminationValue = (long int)buf.st_size;
    //(*progStatusPtr).TerminationValue = (long)1097929;
    (*progStatusPtr).InitialValue = (long)0;
-  cout << "part part 2" << endl;
-  cout << "pre-current status: " << *(progStatusPtr->CurrentStatus);
-  cout << " pre-term value: " << (*progStatusPtr).TerminationValue << endl;
+   // cout << "part part 2" << endl;
+   //cout << "pre-current status: " << *(progStatusPtr->CurrentStatus);
+   //cout << " pre-term value: " << (*progStatusPtr).TerminationValue << endl;
 
   //progress_monitor(NULL);
   pthread_t tid;
@@ -146,8 +138,10 @@ int main(int argc, char **argv){
   // pthread_attr_t attr;
   // pthread_aatr_init(&attr);
   int result_code = pthread_create(&tid, 0, progress_monitor, (void *)progStatusPtr);
-  cout << wordCount(argv[1]) << endl;
+  long int finalWordCount = wordCount(argv[1]);
   pthread_join(tid, NULL);
+
+  cout << "There are " <<  finalWordCount << " words in " << argv[1] << "." << endl;
 
   //progress_monitor(progStatusPtr);
 
