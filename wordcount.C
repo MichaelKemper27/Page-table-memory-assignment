@@ -71,17 +71,18 @@ long int wordCount(char * fileName){
 long int hyphenCount = 0;
 long int prevHyphenCount = 0;
 
-void* progress_monitor(void * arg) {
+void* progress_monitor(void *input) {
   //cout << "part part 2.5" << endl;
 
   while(prevHyphenCount <= hyphenCount) {
     //cout << "part part 3" << endl;
     long int tempLongInt = count;
-    progStatus.CurrentStatus = &tempLongInt;
+    ((PROGRESS_STATUS *)input)->CurrentStatus = &tempLongInt;
     //long int tempCurrStatus = *(progStatus.CurrentStatus);
     //cout << "current status: " << tempCurrStatus;
     //cout << " term value: " << (*progStatusPtr).TerminationValue << endl;
-    hyphenCount = (long)((((double)(*(progStatus.CurrentStatus)) / (double)(*progStatusPtr).TerminationValue)) * (double)40);
+    //  hyphenCount = (long)((((double)(*(progStatus.CurrentStatus)) / (double)(*progStatusPtr).TerminationValue)) * (double)40);
+    hyphenCount = (long)(((double)(*(((PROGRESS_STATUS *)input)->CurrentStatus)) / (double)(((PROGRESS_STATUS *)input)->TerminationValue)) * (double)40);
     //cout << "part part 3.5 " << prevHyphenCount << " " << hyphenCount << endl;
 
     for(int i = prevHyphenCount; i < hyphenCount; i++) {
@@ -91,7 +92,7 @@ void* progress_monitor(void * arg) {
     //cout << "part part 4" << endl;
 
     prevHyphenCount = hyphenCount;
-    if(*(progStatus.CurrentStatus) == (*progStatusPtr).TerminationValue) {
+    if(*((((PROGRESS_STATUS *)input)->CurrentStatus)) >= ((PROGRESS_STATUS *)input)->TerminationValue) {
       cout << endl;
       break;
       //cout << "part part done" << endl;
@@ -134,7 +135,7 @@ int main(int argc, char **argv){
 
   // pthread_attr_t attr;
   // pthread_aatr_init(&attr);
-  int result_code = pthread_create(&tid, 0, progress_monitor, NULL);
+  int result_code = pthread_create(&tid, 0, progress_monitor, (void *)progStatusPtr);
   cout << wordCount(argv[1]) << endl;
   pthread_join(tid, NULL);
 
