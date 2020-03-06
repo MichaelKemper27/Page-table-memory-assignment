@@ -1,0 +1,25 @@
+#include "byutr.h"
+
+#include <stdio.h>
+
+#define OOPS 5
+
+/*
+ * Example of a program that uses the Brigham Young University
+ * trace reader.  You do not need this program, but you will
+ * need to do what's in it to make your program work.
+ */
+
+int main(int argc, char **argv) {
+  /* hardcoded to a specific filename, you need to handle this
+   * based on your input in argc/argv
+   */
+  FILE *fp = fopen("trace.sample.tr", "r");
+
+  if (fp == NULL) {
+    /* couldn't open, bail gracefully */
+    printf("uh oh\n");
+    exit(OOPS);
+  
+  
+}
