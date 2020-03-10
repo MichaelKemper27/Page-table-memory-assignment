@@ -2,18 +2,19 @@
 #define LEVEL_H
 
 #include <iostream>
-#include "pagetable.h"
+
+class PAGETABLE;
 
 using namespace std;
 
 class LEVEL {
  public:
   int level;
-  PAGETABLE pt;
+  PAGETABLE *pt;
  
-  LEVEL(int n, PAGETABLE &table) {
+  LEVEL(int n, PAGETABLE *table) {
    level = n;
-   *pt = table;
+   pt = table;
   }
   
   

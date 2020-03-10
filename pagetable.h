@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "level.h"
+//class LEVEL;
 
 using namespace std;
 
@@ -15,13 +16,13 @@ class PAGETABLE {
 
   LEVEL *RootNodePtr;
  
- PAGETABLE(int n) {
+  PAGETABLE(int n){
    LevelCount = n;
    BitmaskAry = new int[n];
    ShiftAry = new int[n];
    EntryCount = new int[n];
    
-   RootNodePtr = new LEVEL(0);
+   RootNodePtr = new LEVEL(0, this);
   }
   
   
