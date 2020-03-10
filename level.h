@@ -8,16 +8,21 @@ class PAGETABLE;
 using namespace std;
 
 class LEVEL {
- public:
-  int level;
-  PAGETABLE *pt;
+    public:
+        int level;
+        PAGETABLE *pt;
+        LEVEL **NextLevelPtr;
  
-  LEVEL(int n, PAGETABLE *table) {
-   level = n;
-   pt = table;
-  }
-  
-  
+        LEVEL(int n, PAGETABLE *table) {
+            level = n;
+            pt = table;
+            fillNextLevel();
+        }
+
+        void callp();
+
+    private:
+        void fillNextLevel();
 };
 
 #endif
