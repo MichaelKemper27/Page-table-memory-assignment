@@ -2,6 +2,7 @@
 #define LEVEL_H
 
 #include <iostream>
+#include "map.h"
 
 class PAGETABLE;
 
@@ -12,17 +13,19 @@ class LEVEL {
         int level;
         PAGETABLE *pt;
         LEVEL **NextLevelPtr;
+        MAP *MapPtr;
  
         LEVEL(int n, PAGETABLE *table) {
             level = n;
             pt = table;
-            fillNextLevel();
+            
+            fillDefault();
         }
 
         void callp();
 
     private:
-        void fillNextLevel();
+        void fillDefault();
 };
 
 #endif
