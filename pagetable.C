@@ -30,7 +30,9 @@ void PAGETABLE::PageInsert(LEVEL *Level, unsigned int LogicalAddress, unsigned i
     }
     else {
         cout << offset << "good" << endl;
-        Level->NextLevelPtr[offset] = new LEVEL(Level->Depth + 1, this);
+        if(!Level->NextLevelPtr[offset]){
+            Level->NextLevelPtr[offset] = new LEVEL(Level->Depth + 1, this);
+        }
         PageInsert(Level->NextLevelPtr[offset], LogicalAddress, Frame);
     }
     cout << "last2" << endl;
@@ -39,6 +41,31 @@ void PAGETABLE::PageInsert(LEVEL *Level, unsigned int LogicalAddress, unsigned i
 int PAGETABLE::getOffset(unsigned int LogicalAddress, int depth){
     int stripped = (LogicalAddress & BitmaskAry[depth]) >> ShiftAry[depth];
     return stripped;
+}
+
+MAP * PAGETABLE::PageLookup(unsigned int LogicalAddress){
+    return PageLookup(RootNodePtr, LogicalAddress);
+}
+
+MAP * PAGETABLE::PageLookup(LEVEL *Level, unsigned int LogicalAddress){
+    bool isLeaf = (Level->Depth == LevelCount - 1);
+    cout << "------------------------------" << Level->Depth << endl;
+    cout << isLeaf << endl;
+    cout << Level->Depth << endl;
+    cout << LevelCount << endl;
+
+    int offset = getOffset(LogicalAddress, Level->Depth);
+
+    if(isLeaf && Level->MapPtr[offset].valid){
+        cout << "leaf" << endl;
+        MAP *result = &(Level->MapPtr[offset]);
+        return result;
+    }
+    else if(!isLeaf && Level->NextLevelPtr[offset]){
+        cout << offset << "good" << endl;
+        return PageLookup(Level->NextLevelPtr[offset], LogicalAddress);
+    }
+    return NULL;
 }
 
 

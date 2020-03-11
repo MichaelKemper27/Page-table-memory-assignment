@@ -213,7 +213,13 @@ int main(int argc, char **argv){
 
   cout << p->getOffset(0x12345678, 2) << endl;
   p->PageInsert(0x12345678, 0x00000003);
-  cout << "last" << endl;
+  MAP *m = p->PageLookup(0x12325679);
+  cout << "******" << endl;
+  bool b = false;
+  if(m){
+    b = true;
+  }
+  cout << b << endl;
 
   parseArguments(argc, argv);
 
