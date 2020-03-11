@@ -12,19 +12,19 @@ void LEVEL::callp(){
 void LEVEL::fillDefault(){
     int size = pow(2, pt->EntryCount[Depth]);
 
-    if(Depth == pt->LevelCount - 1){
+    if(Depth < pt->LevelCount - 1){
         NextLevelPtr = new LEVEL*[size];
 
         for(int i = 0; i < size; i++){
             NextLevelPtr[i] = nullptr;
-            cout << "level" << endl;
+           // cout << "level" << endl;
         }
     }
     else {
         MapPtr = new MAP[size];
 
         for(int i = 0; i < size; i++){
-            cout << "here map" << size << endl;
+            //cout << "here map" << size << endl;
             MapPtr[i] = MAP();
         }
     }

@@ -22,6 +22,17 @@ class PAGETABLE {
             ShiftAry = new int[n];
             EntryCount = new int[n];
 
+            BitmaskAry[0] = 0xFF000000;
+            BitmaskAry[1] = 0x00FF0000;
+            BitmaskAry[2] = 0x0000FF00;
+
+            ShiftAry[0] = 24;
+            ShiftAry[1] = 16;
+            ShiftAry[2] = 8;  
+
+            EntryCount[0] = 8;
+            EntryCount[1] = 8;
+            EntryCount[2] = 8;  
             RootNodePtr = new LEVEL(0, this);
         }
 

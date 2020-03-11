@@ -8,11 +8,11 @@ using namespace std;
 class MAP {
     public:
         bool valid;
-        int index;
+        unsigned int Frame;
 
         MAP(){
             valid = false;
-            cout << "last3" << endl;
+            //cout << "last3" << endl;
         }
 };
 
