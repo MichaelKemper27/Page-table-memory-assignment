@@ -10,7 +10,7 @@ using namespace std;
 class PAGETABLE {
     public:
         int LevelCount;
-        int *BitmaskAry;
+        unsigned int *BitmaskAry;
         int *ShiftAry;
         int *EntryCount;
 
@@ -18,7 +18,7 @@ class PAGETABLE {
 
         PAGETABLE(int n){
             LevelCount = n;
-            BitmaskAry = new int[n];
+            BitmaskAry = new unsigned int[n];
             ShiftAry = new int[n];
             EntryCount = new int[n];
 
@@ -26,7 +26,9 @@ class PAGETABLE {
         }
 
         void p();
-
+        void PageInsert(unsigned int LogicalAddress, unsigned int Frame);
+        void PageInsert(LEVEL *Level, unsigned int LogicalAddress, unsigned int Frame);
+        int getOffset(unsigned int LogicalAddress, int depth);
 };
 
 #endif

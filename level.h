@@ -10,22 +10,26 @@ using namespace std;
 
 class LEVEL {
     public:
-        int level;
+        int Depth;
         PAGETABLE *pt;
         LEVEL **NextLevelPtr;
         MAP *MapPtr;
  
         LEVEL(int n, PAGETABLE *table) {
-            level = n;
+            cout << "here" << endl;
+            Depth = n;
             pt = table;
             
             fillDefault();
+            cout << "here2" << endl;
         }
 
         void callp();
+        //void insert();
 
     private:
         void fillDefault();
+        
 };
 
 #endif

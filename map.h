@@ -12,6 +12,7 @@ class MAP {
 
         MAP(){
             valid = false;
+            cout << "last3" << endl;
         }
 };
 
