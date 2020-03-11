@@ -204,7 +204,10 @@ void AddressDecoder(p2AddrTr *addr_ptr, FILE *out) {
 }
 
 int main(int argc, char **argv){
-  PAGETABLE *p = new PAGETABLE(3);
+  parseArguments(argc, argv);
+
+
+  PAGETABLE *p = new PAGETABLE(entryCountIndex, entryCountSizes);
     cout << "last-1" << endl;
 
   //p->RootNodePtr->callp();
@@ -220,8 +223,6 @@ int main(int argc, char **argv){
     b = true;
   }
   cout << b << endl;
-
-  parseArguments(argc, argv);
 
   FILE* ifp; 
   unsigned long i = 0;  /* instructions processed */

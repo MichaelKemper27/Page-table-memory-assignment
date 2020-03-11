@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "level.h"
+#include <math.h>
 //class LEVEL;
 
 using namespace std;
@@ -16,23 +17,38 @@ class PAGETABLE {
 
         LEVEL *RootNodePtr;
 
-        PAGETABLE(int n){
+        PAGETABLE(int n, int *data){
             LevelCount = n;
             BitmaskAry = new unsigned int[n];
             ShiftAry = new int[n];
             EntryCount = new int[n];
 
-            BitmaskAry[0] = 0xFF000000;
-            BitmaskAry[1] = 0x00FF0000;
-            BitmaskAry[2] = 0x0000FF00;
+            int currentOffset = 32;
+            for(int i = 0; i < n; i++){
+                EntryCount[i] = data[i];
+                currentOffset -= data[i];
+                ShiftAry[i] = currentOffset;
+                unsigned int bitMask = 0x00000000;
+                int bits = pow(2, data[i]) - 1;
+                cout << "bits " << bits << endl;
+                cout << (bits | bitMask) << endl;
+                bitMask = (bitMask | bits) << currentOffset;
+                cout << "bitmask " << bitMask << endl;
+                BitmaskAry[i] = bitMask;
+            }
 
-            ShiftAry[0] = 24;
-            ShiftAry[1] = 16;
-            ShiftAry[2] = 8;  
-
-            EntryCount[0] = 8;
-            EntryCount[1] = 8;
-            EntryCount[2] = 8;  
+            cout << n << endl;
+            cout << "array check: " << endl;
+            for(int i = 0; i < n; i++){
+                cout << EntryCount[i] << endl;
+            }
+            for(int i = 0; i < n; i++){
+                cout << ShiftAry[i] << endl;
+            }
+            for(int i = 0; i < n; i++){
+                cout << BitmaskAry[i] << endl;
+            }
+            cout << "array done" << endl;
             RootNodePtr = new LEVEL(0, this);
         }
 
