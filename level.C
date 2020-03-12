@@ -28,7 +28,7 @@ void LEVEL::fillDefault(){
             MapPtr[i] = MAP();
         }
     }
-    cout << "here3" << endl;
+    //cout << "here3" << endl;
 }
 
 // void LEVEL::insert(){

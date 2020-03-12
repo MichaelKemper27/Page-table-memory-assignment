@@ -58,6 +58,8 @@ class PAGETABLE {
         MAP * PageLookup(LEVEL *Level, unsigned int LogicalAddress);
         void PageInsert(LEVEL *Level, unsigned int LogicalAddress, unsigned int Frame);
         int getOffset(unsigned int LogicalAddress, int depth);
+        void printTable();
+        void printLevel(LEVEL *Level, unsigned int current);
 };
 
 #endif

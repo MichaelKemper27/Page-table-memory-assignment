@@ -209,21 +209,21 @@ int main(int argc, char **argv){
 
 
   PAGETABLE *p = new PAGETABLE(entryCountIndex, entryCountSizes);
-    cout << "last-1" << endl;
+    //cout << "last-1" << endl;
 
   //p->RootNodePtr->callp();
-  p->p();
-    cout << "last-2" << endl;
+  // p->p();
+  //   cout << "last-2" << endl;
 
-  cout << p->getOffset(0x12345678, 2) << endl;
-  p->PageInsert(0x12345678, 0x00000003);
-  MAP *m = p->PageLookup(0x12325679);
-  cout << "******" << endl;
-  bool b = false;
-  if(m){
-    b = true;
-  }
-  cout << b << endl;
+  // cout << p->getOffset(0x12345678, 2) << endl;
+  // p->PageInsert(0x12345678, 0x00000003);
+  // MAP *m = p->PageLookup(0x12325679);
+  // cout << "******" << endl;
+  // bool b = false;
+  // if(m){
+  //   b = true;
+  // }
+  // cout << b << endl;
 
   FILE* ifp; 
   unsigned long i = 0;  /* instructions processed */
@@ -253,6 +253,7 @@ int main(int argc, char **argv){
 
       MAP *map = p->PageLookup(trace.addr);
       if(!map){
+        //cout << trace.addr << endl;
         p->PageInsert(trace.addr, FrameCount);
         FrameCount++;
       }
@@ -262,7 +263,11 @@ int main(int argc, char **argv){
       if ((i % 100000) == 0)
 	      fprintf(stderr,"%dK samples processed\r", i/100000);
     }
-  }	
+  }
+
+  p->printTable();	
+
+
 
   /* clean up and return success */
   fclose(ifp);
