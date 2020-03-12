@@ -16,16 +16,11 @@ class LEVEL {
         MAP *MapPtr;
  
         LEVEL(int n, PAGETABLE *table) {
-            cout << "here" << endl;
             Depth = n;
             pt = table;
             
             fillDefault();
-            cout << "here2" << endl;
         }
-
-        void callp();
-        //void insert();
 
     private:
         void fillDefault();

@@ -272,6 +272,9 @@ int main(int argc, char **argv){
     }
   }
 
+  if(showLogToPhysTranslation){
+    cout << "" << endl;
+  }
   p->printTable();	
 
 

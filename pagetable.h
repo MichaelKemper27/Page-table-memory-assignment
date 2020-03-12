@@ -24,6 +24,7 @@ class PAGETABLE {
             ShiftAry = new int[n];
             EntryCount = new int[n];
 
+            //fill EntryCount, ShiftAry, and BitMask
             int currentOffset = 32;
             for(int i = 0; i < n; i++){
                 EntryCount[i] = data[i];
@@ -31,37 +32,24 @@ class PAGETABLE {
                 ShiftAry[i] = currentOffset;
                 unsigned int bitMask = 0x00000000;
                 int bits = pow(2, data[i]) - 1;
-                cout << "bits " << bits << endl;
-                cout << (bits | bitMask) << endl;
                 bitMask = (bitMask | bits) << currentOffset;
-                cout << "bitmask " << bitMask << endl;
                 BitmaskAry[i] = bitMask;
             }
-
-            cout << n << endl;
-            cout << "array check: " << endl;
-            for(int i = 0; i < n; i++){
-                cout << EntryCount[i] << endl;
-            }
-            for(int i = 0; i < n; i++){
-                cout << ShiftAry[i] << endl;
-            }
-            for(int i = 0; i < n; i++){
-                cout << BitmaskAry[i] << endl;
-            }
-            cout << "array done" << endl;
             RootNodePtr = new LEVEL(0, this);
         }
 
-        void p();
         void PageInsert(unsigned int LogicalAddress, unsigned int Frame);
         MAP * PageLookup(unsigned int LogicalAddress);
+        void printTable();
+        void logTranslations();
+
+    private:
         MAP * PageLookup(LEVEL *Level, unsigned int LogicalAddress);
         void PageInsert(LEVEL *Level, unsigned int LogicalAddress, unsigned int Frame);
-        int getOffset(unsigned int LogicalAddress, int depth);
-        void printTable();
         void printLevel(LEVEL *Level, unsigned int current);
-        void logTranslations();
+        int getOffset(unsigned int LogicalAddress, int depth);
+        void logHere(LEVEL *Level, unsigned int LogicalAddress, int offset);
+
 };
 
 #endif

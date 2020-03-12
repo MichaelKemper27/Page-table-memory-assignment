@@ -5,10 +5,7 @@
 
 using namespace std;
 
-void LEVEL::callp(){
-    cout << (*pt).LevelCount << endl;
-}
-
+//fill NextLevelPtr with nullptrs and if leaf, fill MapPtr with invalid maps
 void LEVEL::fillDefault(){
     int size = pow(2, pt->EntryCount[Depth]);
 
@@ -17,31 +14,14 @@ void LEVEL::fillDefault(){
 
         for(int i = 0; i < size; i++){
             NextLevelPtr[i] = nullptr;
-           // cout << "level" << endl;
         }
     }
     else {
         MapPtr = new MAP[size];
 
         for(int i = 0; i < size; i++){
-            //cout << "here map" << size << endl;
             MapPtr[i] = MAP();
         }
     }
-    //cout << "here3" << endl;
 }
-
-// void LEVEL::insert(){
-//     bool isLeaf = (Level == pt->LevelCount - 1);
-//     cout << isLeaf << endl;
-//     cout << Level << endl;
-//     cout << pt->LevelCount << endl;
-
-//     if(isLeaf){
-//         cout << "leaf" << endl;
-//     }
-//     else {
-//         NextLevelPtr[0]->insert();
-//     }
-// }
 
