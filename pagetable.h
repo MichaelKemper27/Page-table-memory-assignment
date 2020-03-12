@@ -20,9 +20,11 @@ class PAGETABLE {
         LEVEL *RootNodePtr;
 
         PAGETABLE(int n, int *data){
-            ofstream clearCurrentOutputFile;
-            clearCurrentFile.open(outputFileName);
-            clearCurrentFile.close();
+            if(outputFileName) {
+              ofstream clearCurrentOutputFile;
+              clearCurrentOutputFile.open(outputFileName);
+              clearCurrentOutputFile.close();
+            }
             LevelCount = n;
             BitmaskAry = new unsigned int[n];
             ShiftAry = new int[n];

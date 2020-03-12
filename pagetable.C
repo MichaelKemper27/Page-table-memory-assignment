@@ -39,6 +39,9 @@ void PAGETABLE::PageInsert(LEVEL *Level, unsigned int LogicalAddress, unsigned i
             unsigned int finalOffset = LogicalAddress & powr;
             unsigned int physical = (Level->MapPtr[offset].Frame * pageSize) + finalOffset;
             cout << setfill('0') << setw(8) << hex << LogicalAddress << " -> " << setfill('0') << setw(8) << hex << physical << endl; 
+            myfile.open(outputFileName, std::ios_base::app);
+            myfile << setfill('0') << setw(8) << hex << LogicalAddress << " -> " << setfill('0') << setw(8) << hex << physical << endl; 
+            myfile.close();
         }
         //cout << Level->MapPtr[offset].Frame << endl;
     }
