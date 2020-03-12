@@ -2,12 +2,13 @@
 #define PAGETABLE_H
 
 #include <iostream>
+#include <fstream>
 #include "level.h"
 #include <math.h>
-//class LEVEL;
 
 using namespace std;
 
+extern char* outputFileName;
 class PAGETABLE {
     public:
         int LevelCount;
@@ -19,6 +20,11 @@ class PAGETABLE {
         LEVEL *RootNodePtr;
 
         PAGETABLE(int n, int *data){
+            if(outputFileName) {
+              ofstream clearCurrentOutputFile;
+              clearCurrentOutputFile.open(outputFileName);
+              clearCurrentOutputFile.close();
+            }
             LevelCount = n;
             BitmaskAry = new unsigned int[n];
             ShiftAry = new int[n];
@@ -51,5 +57,6 @@ class PAGETABLE {
         void logHere(LEVEL *Level, unsigned int LogicalAddress, int offset);
 
 };
+
 
 #endif

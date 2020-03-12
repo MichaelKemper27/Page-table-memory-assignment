@@ -80,6 +80,11 @@ void PAGETABLE::printLevel(LEVEL *Level, unsigned int current){
     for(int i = 0; i < size; i++){
         if(isLeaf && Level->MapPtr[i].valid){
             cout << setfill('0') << setw(8) << hex << current + i << " -> " << setfill('0') << setw(8) << hex << Level->MapPtr[i].Frame << endl;
+            if(outputFileName) {
+                myfile.open(outputFileName, std::ios_base::app);
+                myfile << setfill('0') << setw(8) << hex << current + i << " -> " << setfill('0') << setw(8) << hex << Level->MapPtr[i].Frame << endl;
+                myfile.close();
+            }
         }
         //if its not a leaf, drop down a level
         else if(!isLeaf && Level->NextLevelPtr[i]){
