@@ -12,9 +12,9 @@ char* inputTraceFileName;
 int* entryCountSizes;
 int entryCountIndex = 0;
 bool showLogToPhysTranslation = false;
+int numMemoryRefs = -1;
 
 void parseArguments(int argc, char **argv) {
-  int numMemoryRefs = -1;
   int option;
   int flagCount = 0;
   entryCountSizes = new int[argc];
@@ -245,8 +245,12 @@ int main(int argc, char **argv){
     exit(1);
   }
 	
+  int processCount = 0;
   unsigned int FrameCount = 0;
   while (!feof(ifp)) {
+    if(numMemoryRefs != -1 && processCount > numMemoryRefs){
+      break;
+    }
     /* get next address and process */
     if (NextAddress(ifp, &trace)) {
       //AddressDecoder(&trace, stdout); //** use this later
@@ -257,7 +261,7 @@ int main(int argc, char **argv){
         p->PageInsert(trace.addr, FrameCount);
         FrameCount++;
       }
-
+      processCount++;
 
       i++;
       if ((i % 100000) == 0)
