@@ -3,6 +3,7 @@
 
 #include "byutr.h"
 #include "pagetable.h"
+#include "map.h"
 
 using namespace std;
 
@@ -244,10 +245,19 @@ int main(int argc, char **argv){
     exit(1);
   }
 	
+  unsigned int FrameCount = 0;
   while (!feof(ifp)) {
     /* get next address and process */
     if (NextAddress(ifp, &trace)) {
       //AddressDecoder(&trace, stdout); //** use this later
+
+      MAP *map = p->PageLookup(trace.addr);
+      if(!map){
+        p->PageInsert(trace.addr, FrameCount);
+        FrameCount++;
+      }
+
+
       i++;
       if ((i % 100000) == 0)
 	      fprintf(stderr,"%dK samples processed\r", i/100000);
