@@ -4,7 +4,7 @@
 
 
 using namespace std;
-
+ofstream myfile;
 void PAGETABLE::p(){
     
 
@@ -82,6 +82,11 @@ void PAGETABLE::printLevel(LEVEL *Level, unsigned int current){
     for(int i = 0; i < size; i++){
         if(isLeaf && Level->MapPtr[i].valid){
             cout << setfill('0') << setw(8) << hex << current + i << " -> " << setfill('0') << setw(8) << hex << Level->MapPtr[i].Frame << endl;
+            if(outputFileName) {
+                myfile.open(outputFileName, std::ios_base::app);
+                myfile << setfill('0') << setw(8) << hex << current + i << " -> " << setfill('0') << setw(8) << hex << Level->MapPtr[i].Frame << endl;
+                myfile.close();
+            }
         }
         else if(!isLeaf && Level->NextLevelPtr[i]){
             unsigned int adr = (i << ShiftAry[Level->Depth]) + current;

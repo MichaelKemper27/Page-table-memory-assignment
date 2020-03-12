@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <iostream>
+#include <fstream>
 
 #include "byutr.h"
 #include "pagetable.h"
@@ -207,7 +208,6 @@ void AddressDecoder(p2AddrTr *addr_ptr, FILE *out) {
 int main(int argc, char **argv){
   parseArguments(argc, argv);
 
-
   PAGETABLE *p = new PAGETABLE(entryCountIndex, entryCountSizes);
     //cout << "last-1" << endl;
 
@@ -275,4 +275,5 @@ int main(int argc, char **argv){
 
   /* clean up and return success */
   fclose(ifp);
+
 }
