@@ -209,6 +209,9 @@ int main(int argc, char **argv){
 
 
   PAGETABLE *p = new PAGETABLE(entryCountIndex, entryCountSizes);
+  if(showLogToPhysTranslation){
+    p->logTranslations();
+  }
     //cout << "last-1" << endl;
 
   //p->RootNodePtr->callp();

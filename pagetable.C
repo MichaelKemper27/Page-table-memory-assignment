@@ -29,6 +29,17 @@ void PAGETABLE::PageInsert(LEVEL *Level, unsigned int LogicalAddress, unsigned i
         //cout << "leaf" << endl;
         Level->MapPtr[offset].valid = true;
         Level->MapPtr[offset].Frame = Frame;
+
+        if(log){
+            int pageSize = 32;
+            for(int i = 0; i < LevelCount; i++){
+                pageSize -= EntryCount[i];
+            }
+            int powr = pow(2, pageSize) - 1;
+            unsigned int finalOffset = LogicalAddress & powr;
+            unsigned int physical = (Level->MapPtr[offset].Frame * pageSize) + finalOffset;
+            cout << setfill('0') << setw(8) << hex << LogicalAddress << " -> " << setfill('0') << setw(8) << hex << physical << endl; 
+        }
         //cout << Level->MapPtr[offset].Frame << endl;
     }
     else {
@@ -62,6 +73,16 @@ MAP * PAGETABLE::PageLookup(LEVEL *Level, unsigned int LogicalAddress){
     if(isLeaf && Level->MapPtr[offset].valid){
         //cout << "leaf" << endl;
         MAP *result = &(Level->MapPtr[offset]);
+        if(log){
+            int pageSize = 32;
+            for(int i = 0; i < LevelCount; i++){
+                pageSize -= EntryCount[i];
+            }
+            int powr = pow(2, pageSize) - 1;
+            unsigned int finalOffset = LogicalAddress & powr;
+            unsigned int physical = (Level->MapPtr[offset].Frame * pageSize) + finalOffset;
+            cout << setfill('0') << setw(8) << hex << LogicalAddress << " -> " << setfill('0') << setw(8) << hex << physical << endl; 
+        }
         return result;
     }
     else if(!isLeaf && Level->NextLevelPtr[offset]){
@@ -88,6 +109,10 @@ void PAGETABLE::printLevel(LEVEL *Level, unsigned int current){
             printLevel(Level->NextLevelPtr[i], adr);
         }
     }
+}
+
+void PAGETABLE::logTranslations(){
+    log = true;
 }
 
 

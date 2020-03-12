@@ -14,6 +14,7 @@ class PAGETABLE {
         unsigned int *BitmaskAry;
         int *ShiftAry;
         int *EntryCount;
+        bool log = false;
 
         LEVEL *RootNodePtr;
 
@@ -60,6 +61,7 @@ class PAGETABLE {
         int getOffset(unsigned int LogicalAddress, int depth);
         void printTable();
         void printLevel(LEVEL *Level, unsigned int current);
+        void logTranslations();
 };
 
 #endif
