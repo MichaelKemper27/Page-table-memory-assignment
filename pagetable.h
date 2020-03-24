@@ -1,3 +1,6 @@
+// pagetable.h
+// Student: Kemper, Michael | Clode, Ryan
+// RedID: (Kemper)822 86 7065 | (Clode)820 72 7161
 #ifndef PAGETABLE_H
 #define PAGETABLE_H
 

@@ -1,9 +1,13 @@
+// pagetable.C
+// Student: Kemper, Michael | Clode, Ryan
+// RedID: (Kemper)822 86 7065 | (Clode)820 72 7161
 #include <iomanip>
 #include <iostream>
 #include "pagetable.h"
 
 
 using namespace std;
+ofstream myfile;
 
 void PAGETABLE::PageInsert(unsigned int LogicalAddress, unsigned int Frame){
     PageInsert(RootNodePtr, LogicalAddress, Frame);
