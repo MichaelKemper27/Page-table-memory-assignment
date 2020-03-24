@@ -215,35 +215,10 @@ int main(int argc, char **argv){
   if(showLogToPhysTranslation){
     p->logTranslations();
   }
-    //cout << "last-1" << endl;
-
-  //p->RootNodePtr->callp();
-  // p->p();
-  //   cout << "last-2" << endl;
-
-  // cout << p->getOffset(0x12345678, 2) << endl;
-  // p->PageInsert(0x12345678, 0x00000003);
-  // MAP *m = p->PageLookup(0x12325679);
-  // cout << "******" << endl;
-  // bool b = false;
-  // if(m){
-  //   b = true;
-  // }
-  // cout << b << endl;
 
   FILE* ifp; 
   unsigned long i = 0;  /* instructions processed */
   p2AddrTr trace;	/* traced address */
-
-/*
-  // Creates a file "demo_file" 
-  // with file acccess as write-plus mode 
-  ifp = fopen(inputTraceFileName, "w+"); 
-
-  NextAddress(demo, );
-  // closes the file pointed by demo 
-  fclose(demo); 
-*/
 
   /* attempt to open trace file */
   if ((ifp = fopen(inputTraceFileName,"rb")) == NULL) {
@@ -259,7 +234,6 @@ int main(int argc, char **argv){
     }
     /* get next address and process */
     if (NextAddress(ifp, &trace)) {
-      //AddressDecoder(&trace, stdout); //** use this later
 
       MAP *map = p->PageLookup(trace.addr);
       if(!map){
